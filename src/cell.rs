@@ -36,6 +36,12 @@ impl Cell {
     pub fn kill(&mut self) {
         self.state = State::Dead;
     }
+
+    pub fn consider_neighbor(&mut self, neighbor: &Cell) {
+        if neighbor.is_alive() {
+            self.num_neighbors += 1;
+        }
+    }
 }
 
 impl Default for Cell {
@@ -95,5 +101,24 @@ mod tests {
         assert!(cell.is_alive());
         cell.kill();
         assert!(!cell.is_alive());
+    }
+
+    #[test]
+    fn can_check_neighbor() {
+        let mut alive_cell = Cell::new();
+        alive_cell.bring_to_life();
+
+        let mut dead_cell = Cell::new();
+        dead_cell.kill();
+
+        alive_cell.consider_neighbor(&dead_cell);
+        assert_eq!(0, alive_cell.num_neighbors);
+        alive_cell.consider_neighbor(&dead_cell);
+        assert_eq!(0, alive_cell.num_neighbors);
+
+        dead_cell.consider_neighbor(&alive_cell);
+        assert_eq!(1, dead_cell.num_neighbors);
+        dead_cell.consider_neighbor(&alive_cell);
+        assert_eq!(2, dead_cell.num_neighbors);
     }
 }
