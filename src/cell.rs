@@ -18,7 +18,7 @@ impl Cell {
     }
 
     pub fn update_state(&mut self) {
-        if self.num_neighbors == 2 || self.num_neighbors == 3 {
+        if self.num_neighbors == 3 || (self.num_neighbors == 2 && self.is_alive()) {
             self.state = State::Alive;
         } else {
             self.state = State::Dead;
@@ -58,16 +58,23 @@ mod tests {
         let mut cell = Cell::new();
         assert!(!cell.is_alive());
 
-        let num_neighbors_to_live = [2, 3];
+        let num_neighbors_to_live = [3];
         for num_neighbors in num_neighbors_to_live {
             cell.num_neighbors = num_neighbors;
             cell.update_state();
             assert!(cell.is_alive());
         }
 
+        let num_neighbors_to_keep_alive = [2, 3];
+        for num_neighbors in num_neighbors_to_keep_alive {
+            cell.num_neighbors = num_neighbors;
+            cell.update_state();
+            assert!(cell.is_alive());
+        }
 
         let num_neighbors_to_die = [1, 4, 5, 6, 7, 8, 9];
         for num_neighbors in num_neighbors_to_die {
+            cell.bring_to_life();
             cell.num_neighbors = num_neighbors;
             cell.update_state();
             assert!(!cell.is_alive());
