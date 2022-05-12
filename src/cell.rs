@@ -28,6 +28,14 @@ impl Cell {
     pub fn is_alive(&self) -> bool {
         self.state == State::Alive
     }
+
+    pub fn bring_to_life(&mut self) {
+        self.state = State::Alive;
+    }
+
+    pub fn kill(&mut self) {
+        self.state = State::Dead;
+    }
 }
 
 impl Default for Cell {
@@ -64,5 +72,21 @@ mod tests {
             cell.update_state();
             assert!(!cell.is_alive());
         }
+    }
+
+    #[test]
+    fn can_bring_cell_to_life() {
+        let mut cell = Cell::new();
+        cell.bring_to_life();
+        assert!(cell.is_alive());
+    }
+
+    #[test]
+    fn can_kill_a_cell() {
+        let mut cell = Cell::new();
+        cell.bring_to_life();
+        assert!(cell.is_alive());
+        cell.kill();
+        assert!(!cell.is_alive());
     }
 }
