@@ -1,9 +1,10 @@
-#[derive(PartialEq)]
+#[derive(PartialEq, Clone, Copy)]
 enum State {
     Alive,
     Dead,
 }
 
+#[derive(Clone, Copy)]
 pub struct Cell {
     state: State,
     pub num_neighbors: i8,
