@@ -73,6 +73,7 @@ impl Default for Field<1> {
 mod tests {
     use super::*;
     use crate::cell::Cell;
+    use itertools::Itertools;
 
     #[test]
     fn can_create_field() {
@@ -148,5 +149,38 @@ mod tests {
         for coord in coord_new_dead_cells {
             assert!(!field.cells[coord.0][coord.1].is_alive());
         }
+    }
+
+    #[test]
+    fn aircraft_carrier() {
+        // See: https://playgameoflife.com/lexicon/aircraft_carrier
+        let coord_alive_cells: Vec<(usize, usize)> = vec![(1, 1), (1, 2), (2, 1), (2, 4), (3, 3), (3, 4)];
+        let coord_space: Vec<(usize, usize)> = (0..6)
+            .permutations(2)
+            .collect_vec()
+            .iter_mut()
+            .map(|coord| (coord[0], coord[1]))
+            .collect();
+
+        let mut coord_dead_cells= coord_space.clone();
+        coord_dead_cells.retain(|coord| !coord_alive_cells.contains(coord));
+
+        let cells = [[Cell::default(); 6]; 6];
+        let mut field = Field::new(cells);
+
+        for &coord in &coord_alive_cells {
+            field.bring_life_at(coord);
+        }
+
+        field.update();
+
+        for coord in coord_alive_cells {
+            assert!(field.cells[coord.0][coord.1].is_alive());
+        }
+
+        for coord in coord_dead_cells {
+            assert!(!field.cells[coord.0][coord.1].is_alive());
+        }
+
     }
 }
