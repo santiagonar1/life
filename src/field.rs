@@ -18,15 +18,6 @@ impl Field {
         &self.cells
     }
 
-    pub fn bring_life_at(&mut self, coordinates: (usize, usize)) {
-        self.cells
-            .get_mut(coordinates.0)
-            .expect("First coordinate out of bounds")
-            .get_mut(coordinates.1)
-            .expect("Second coordinate out of bounds")
-            .bring_to_life();
-    }
-
     pub fn is_cell_alive_at(&self, coordinates: (usize, usize)) -> bool {
         self.cells
             .get(coordinates.0)
@@ -78,23 +69,9 @@ mod tests {
     }
 
     #[test]
-    fn can_bring_cells_to_life() {
-        let coord_alive_cells = [(2, 2), (3, 1)];
-        let mut field: Field = Field::new(4, &coord_alive_cells);
-        for coord in coord_alive_cells {
-            field.bring_life_at(coord);
-            assert!(field.is_cell_alive_at(coord));
-        }
-    }
-
-    #[test]
     fn can_update_num_neighbors() {
         let coord_alive_cells = [(2, 2), (3, 1)];
         let mut field: Field = Field::new(6, &coord_alive_cells);
-
-        for coord in coord_alive_cells {
-            field.bring_life_at(coord);
-        }
 
         field.update_num_neighbors();
         let cells = field.cells();
@@ -127,10 +104,6 @@ mod tests {
 
         let mut field: Field = Field::new(7, &coord_alive_cells);
 
-        for coord in coord_alive_cells {
-            field.bring_life_at(coord);
-        }
-
         field.update();
 
         let coord_alive_cells = [(1, 1), (1, 2), (2, 1), (2, 2), (2, 3)];
@@ -160,10 +133,6 @@ mod tests {
         coord_dead_cells.retain(|coord| !coord_alive_cells.contains(coord));
 
         let mut field: Field = Field::new(6, &coord_alive_cells);
-
-        for &coord in &coord_alive_cells {
-            field.bring_life_at(coord);
-        }
 
         field.update();
 
