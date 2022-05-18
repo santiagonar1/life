@@ -66,14 +66,6 @@ impl<const N: usize> Field<N> {
     }
 }
 
-impl Default for Field<1> {
-    fn default() -> Self {
-        Field {
-            cells: [[Cell::default(); 1]; 1],
-        }
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -20,7 +20,7 @@ mod tests {
 
     #[test]
     fn can_create_game() {
-        let field = Field::default();
+        let field: Field<20> = Field::new(6, &[]);
         let _game = Game::new(field);
     }
 }
