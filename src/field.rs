@@ -14,10 +14,7 @@ impl Field {
         Field { cells }
     }
 
-    pub fn cells(&self) -> &Vec<Vec<Cell>> {
-        &self.cells
-    }
-
+    #[allow(dead_code)]
     pub fn is_cell_alive_at(&self, coordinates: (usize, usize)) -> bool {
         self.cells
             .get(coordinates.0)
@@ -74,7 +71,6 @@ mod tests {
         let mut field: Field = Field::new(6, &coord_alive_cells);
 
         field.update_num_neighbors();
-        let cells = field.cells();
 
         let coord_one_neigh = [
             (1, 1),
@@ -90,11 +86,11 @@ mod tests {
         let coord_two_neigh = [(2, 1), (3, 2)];
 
         for coord in coord_one_neigh {
-            assert_eq!(1, cells[coord.0][coord.1].num_neighbors);
+            assert_eq!(1, field.cells[coord.0][coord.1].num_neighbors);
         }
 
         for coord in coord_two_neigh {
-            assert_eq!(2, cells[coord.0][coord.1].num_neighbors);
+            assert_eq!(2, field.cells[coord.0][coord.1].num_neighbors);
         }
     }
 

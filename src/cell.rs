@@ -34,6 +34,8 @@ impl Cell {
         self.state = State::Alive;
     }
 
+
+    #[allow(dead_code)]
     pub fn kill(&mut self) {
         self.state = State::Dead;
     }
