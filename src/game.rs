@@ -1,11 +1,11 @@
 use crate::field::Field;
 
-pub struct Game<const N: usize> {
-    field: Field<N>,
+pub struct Game {
+    field: Field,
 }
 
-impl<const N: usize> Game<N> {
-    pub fn new(field: Field<N>) -> Self {
+impl Game {
+    pub fn new(field: Field) -> Self {
         Game { field }
     }
 
@@ -20,7 +20,7 @@ mod tests {
 
     #[test]
     fn can_create_game() {
-        let field: Field<20> = Field::new(6, &[]);
+        let field: Field = Field::new(6, &[]);
         let _game = Game::new(field);
     }
 }

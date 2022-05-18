@@ -1,12 +1,12 @@
 use crate::cell::Cell;
 
-pub struct Field<const N: usize> {
-    cells: [[Cell; N]; N],
+pub struct Field {
+    cells: Vec<Vec<Cell>>,
 }
 
-impl<const N: usize> Field<N> {
-    pub fn new(_size: usize, coord_alive_cells: &[(usize, usize)]) -> Self {
-        let mut cells = [[Cell::default(); N]; N];
+impl Field {
+    pub fn new(size: usize, coord_alive_cells: &[(usize, usize)]) -> Self {
+        let mut cells = vec![vec![Cell::default(); size]; size];
         for coord_alive in coord_alive_cells {
             cells[coord_alive.0][coord_alive.1].bring_to_life();
         }
@@ -14,7 +14,7 @@ impl<const N: usize> Field<N> {
         Field { cells }
     }
 
-    pub fn cells(&self) -> &[[Cell; N]; N] {
+    pub fn cells(&self) -> &Vec<Vec<Cell>> {
         &self.cells
     }
 
@@ -38,8 +38,9 @@ impl<const N: usize> Field<N> {
 
     fn update_num_neighbors(&mut self) {
         let old_cells = self.cells.clone();
-        for (i, row) in self.cells.iter_mut().skip(1).take(N - 2).enumerate() {
-            for (j, cell) in row.iter_mut().skip(1).take(N - 2).enumerate() {
+        let size = self.cells.len();
+        for (i, row) in self.cells.iter_mut().skip(1).take(size - 2).enumerate() {
+            for (j, cell) in row.iter_mut().skip(1).take(size - 2).enumerate() {
                 let i = i + 1;
                 let j = j + 1;
 
@@ -73,13 +74,13 @@ mod tests {
 
     #[test]
     fn can_create_field() {
-        let _field: Field<20> = Field::new(20, &[]);
+        let _field: Field = Field::new(5, &[]);
     }
 
     #[test]
     fn can_bring_cells_to_life() {
         let coord_alive_cells = [(2, 2), (3, 1)];
-        let mut field: Field<20> = Field::new(20, &coord_alive_cells);
+        let mut field: Field = Field::new(4, &coord_alive_cells);
         for coord in coord_alive_cells {
             field.bring_life_at(coord);
             assert!(field.is_cell_alive_at(coord));
@@ -89,7 +90,7 @@ mod tests {
     #[test]
     fn can_update_num_neighbors() {
         let coord_alive_cells = [(2, 2), (3, 1)];
-        let mut field: Field<20> = Field::new(20, &coord_alive_cells);
+        let mut field: Field = Field::new(6, &coord_alive_cells);
 
         for coord in coord_alive_cells {
             field.bring_life_at(coord);
@@ -124,7 +125,7 @@ mod tests {
     fn can_update_field() {
         let coord_alive_cells = [(1, 2), (2, 1), (2, 2), (2, 4)];
 
-        let mut field: Field<20> = Field::new(20, &coord_alive_cells);
+        let mut field: Field = Field::new(7, &coord_alive_cells);
 
         for coord in coord_alive_cells {
             field.bring_life_at(coord);
@@ -148,7 +149,7 @@ mod tests {
         // See: https://playgameoflife.com/lexicon/aircraft_carrier
         let coord_alive_cells: Vec<(usize, usize)> =
             vec![(1, 1), (1, 2), (2, 1), (2, 4), (3, 3), (3, 4)];
-        let coord_space: Vec<(usize, usize)> = (0..6)
+        let coord_space: Vec<(usize, usize)> = (0..=5)
             .permutations(2)
             .collect_vec()
             .iter_mut()
@@ -158,8 +159,7 @@ mod tests {
         let mut coord_dead_cells = coord_space.clone();
         coord_dead_cells.retain(|coord| !coord_alive_cells.contains(coord));
 
-        // TODO: Should be 6
-        let mut field: Field<20> = Field::new(6, &coord_alive_cells);
+        let mut field: Field = Field::new(6, &coord_alive_cells);
 
         for &coord in &coord_alive_cells {
             field.bring_life_at(coord);
