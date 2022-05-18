@@ -5,8 +5,8 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(field: Field) -> Self {
-        Game { field }
+    pub fn new(size: usize, coord_alive_cells: &[(usize, usize)]) -> Self {
+        Game { field: Field::new(size, coord_alive_cells) }
     }
 
     pub fn next(&mut self) {
@@ -20,7 +20,6 @@ mod tests {
 
     #[test]
     fn can_create_game() {
-        let field: Field = Field::new(6, &[]);
-        let _game = Game::new(field);
+        let _game = Game::new(10, &[]);
     }
 }

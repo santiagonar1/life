@@ -1,3 +1,3 @@
 mod cell;
-pub mod field;
+mod field;
 pub mod game;
