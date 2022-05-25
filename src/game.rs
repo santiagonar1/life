@@ -6,7 +6,9 @@ pub struct Game {
 
 impl Game {
     pub fn new(size: usize, coord_alive_cells: &[(usize, usize)]) -> Self {
-        Game { field: Field::new(size, coord_alive_cells) }
+        Game {
+            field: Field::new(size, coord_alive_cells),
+        }
     }
 
     pub fn next(&mut self) {
