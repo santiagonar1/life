@@ -2,6 +2,10 @@
 name = "life"
 version = "0.1.0"
 edition = "2021"
+authors = ["Santiago Narvaez <santiagonar1@gmail.com>"]
+description = "A simple implementation of the Game of Life"
+repository = "https://github.com/santiagonar1/life"
+license = "GPL-3.0-or-later"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
