@@ -14,6 +14,10 @@ impl Game {
     pub fn next(&mut self) {
         self.field.update();
     }
+
+    pub fn coord_alive_cells(&self) -> Vec<(usize, usize)> {
+        self.field.coord_alive_cells()
+    }
 }
 
 #[cfg(test)]
