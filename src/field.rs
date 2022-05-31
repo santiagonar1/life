@@ -24,6 +24,18 @@ impl Field {
             .is_alive()
     }
 
+    pub fn coord_alive_cells(&self) -> Vec<(usize, usize)> {
+        let mut coord_alive_cell: Vec<(usize, usize)> = Vec::new();
+        for (i, row) in self.cells.iter().enumerate() {
+            for (j, cell) in row.iter().enumerate() {
+                if cell.is_alive() {
+                    coord_alive_cell.push((i, j));
+                }
+            }
+        }
+        coord_alive_cell
+    }
+
     fn update_num_neighbors(&mut self) {
         let old_cells = self.cells.clone();
         let size = self.cells.len();
@@ -111,6 +123,17 @@ mod tests {
         for coord in coord_new_dead_cells {
             assert!(!field.cells[coord.0][coord.1].is_alive());
         }
+    }
+
+    #[test]
+    fn can_return_coord_alive_cells() {
+        let coord_alive_cells = vec![(1, 2), (2, 1), (2, 2), (2, 4)];
+        let field: Field = Field::new(7, &coord_alive_cells);
+
+        let expected_coord = coord_alive_cells;
+        let coord_returned = field.coord_alive_cells();
+
+        assert!(expected_coord == coord_returned);
     }
 
     #[test]
