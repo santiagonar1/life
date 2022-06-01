@@ -7,9 +7,10 @@ fn aircraft_carrier() {
         vec![(1, 1), (1, 2), (2, 1), (2, 4), (3, 3), (3, 4)];
 
     let mut game = Game::new(6, &expected_coord_alive_cells);
+    game.set_max_num_iterations(5);
 
     assert_eq!(expected_coord_alive_cells, game.coord_alive_cells());
 
-    game.next();
+    game.play();
     assert_eq!(expected_coord_alive_cells, game.coord_alive_cells());
 }

@@ -55,6 +55,12 @@ impl Game {
     pub fn set_max_num_iterations(&mut self, max_num_iterations: u32) {
         self.max_num_iterations = max_num_iterations;
     }
+
+    pub fn play(&mut self) {
+        for _ in 0..self.max_num_iterations {
+            self.next();
+        }
+    }
 }
 
 #[cfg(test)]
