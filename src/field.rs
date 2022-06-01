@@ -14,16 +14,6 @@ impl Field {
         Field { cells }
     }
 
-    #[allow(dead_code)]
-    pub fn is_cell_alive_at(&self, coordinates: (usize, usize)) -> bool {
-        self.cells
-            .get(coordinates.0)
-            .expect("First coordinate out of bounds")
-            .get(coordinates.1)
-            .expect("Second coordinate out of bounds")
-            .is_alive()
-    }
-
     pub fn coord_alive_cells(&self) -> Vec<(usize, usize)> {
         let mut coord_alive_cell: Vec<(usize, usize)> = Vec::new();
         for (i, row) in self.cells.iter().enumerate() {
