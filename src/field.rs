@@ -34,6 +34,8 @@ impl Field {
                 let i = i + 1;
                 let j = j + 1;
 
+                cell.num_neighbors = 0;
+
                 cell.consider_neighbor(&old_cells[i - 1][j - 1]);
                 cell.consider_neighbor(&old_cells[i - 1][j]);
                 cell.consider_neighbor(&old_cells[i - 1][j + 1]);
@@ -143,6 +145,7 @@ mod tests {
 
         let mut field: Field = Field::new(6, &coord_alive_cells);
 
+        field.update();
         field.update();
 
         for coord in coord_alive_cells {
