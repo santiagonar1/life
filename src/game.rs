@@ -1,19 +1,22 @@
 use crate::field::Field;
+use crate::plotter::Plotter;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
 const ALIVE_SYMBOL: &str = "x";
 const DEFAULT_NUM_ITERATIONS: u32 = 20;
 
-pub struct Game {
+pub struct Game<'a> {
     field: Field,
+    plotter: Option<Plotter<'a>>,
     max_num_iterations: u32,
 }
 
-impl Game {
+impl<'a> Game<'a> {
     pub fn new(size: usize, coord_alive_cells: &[(usize, usize)]) -> Self {
         Game {
             field: Field::new(size, coord_alive_cells),
+            plotter: None,
             max_num_iterations: DEFAULT_NUM_ITERATIONS,
         }
     }
@@ -59,9 +62,19 @@ impl Game {
 
     pub fn play(&mut self) {
         for _ in 0..self.max_num_iterations {
+            if let Some(plotter) = &mut self.plotter {
+                if let Err(_error) = plotter.plot(&self.field) {
+                    println!("Something went wrong");
+                }
+            }
             self.next();
         }
     }
+
+    pub fn enable_plotting(&mut self, base_path: &'a str) -> &mut Self {
+        self.plotter = Some(Plotter::new(base_path));
+        self
+    } 
 }
 
 #[cfg(test)]
