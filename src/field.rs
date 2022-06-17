@@ -1,5 +1,19 @@
 use crate::cell::Cell;
 
+pub trait Size {
+    /// Return the number of rows.
+    fn rows(&self) -> usize;
+
+    /// Return the number of columns.
+    fn columns(&self) -> usize;
+
+    /// Return the number of rows and columns
+    #[inline(always)]
+    fn dimensions(&self) -> (usize, usize) {
+        (self.rows(), self.columns())
+    }
+}
+
 pub struct Field {
     cells: Vec<Vec<Cell>>,
 }
@@ -56,6 +70,20 @@ impl Field {
             .iter_mut()
             .flatten()
             .for_each(|cell| cell.update_state());
+    }
+}
+
+impl Size for Field {
+    fn rows(&self) -> usize {
+        self.cells.len()
+    }
+
+    fn columns(&self) -> usize {
+        if self.cells.is_empty() {
+            return 0;
+        }
+
+        self.cells[0].len()
     }
 }
 
@@ -126,6 +154,22 @@ mod tests {
         let coord_returned = field.coord_alive_cells();
 
         assert_eq!(expected_coord, coord_returned);
+    }
+
+    #[test]
+    fn returns_dimensions() {
+        let size = 8;
+        let expected_dimensions = (size, size);
+        let field = Field::new(size, &[]);
+        assert_eq!(field.dimensions(), expected_dimensions);
+    }
+
+    #[test]
+    fn returns_dimension_0() {
+        let size = 0;
+        let expected_dimensions = (size, size);
+        let field = Field::new(size, &[]);
+        assert_eq!(field.dimensions(), expected_dimensions);
     }
 
     #[test]
