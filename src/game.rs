@@ -55,7 +55,7 @@ impl<'a> Game<'a> {
         self.field.coord_alive_cells()
     }
 
-    pub fn set_max_num_iterations(&mut self, max_num_iterations: u32) -> &mut Self{
+    pub fn set_max_num_iterations(&mut self, max_num_iterations: u32) -> &mut Self {
         self.max_num_iterations = max_num_iterations;
         self
     }
@@ -74,7 +74,7 @@ impl<'a> Game<'a> {
     pub fn enable_plotting(&mut self, base_path: &'a str) -> &mut Self {
         self.plotter = Some(Plotter::new(base_path));
         self
-    } 
+    }
 }
 
 #[cfg(test)]
