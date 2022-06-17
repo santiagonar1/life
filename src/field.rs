@@ -184,7 +184,7 @@ mod tests {
             .map(|coord| (coord[0], coord[1]))
             .collect();
 
-        let mut coord_dead_cells = coord_space.clone();
+        let mut coord_dead_cells = coord_space;
         coord_dead_cells.retain(|coord| !coord_alive_cells.contains(coord));
 
         let mut field: Field = Field::new(6, &coord_alive_cells);
