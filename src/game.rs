@@ -52,8 +52,9 @@ impl Game {
         self.field.coord_alive_cells()
     }
 
-    pub fn set_max_num_iterations(&mut self, max_num_iterations: u32) {
+    pub fn set_max_num_iterations(&mut self, max_num_iterations: u32) -> &mut Self{
         self.max_num_iterations = max_num_iterations;
+        self
     }
 
     pub fn play(&mut self) {
