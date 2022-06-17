@@ -125,7 +125,7 @@ mod tests {
         let expected_coord = coord_alive_cells;
         let coord_returned = field.coord_alive_cells();
 
-        assert!(expected_coord == coord_returned);
+        assert_eq!(expected_coord, coord_returned);
     }
 
     #[test]
